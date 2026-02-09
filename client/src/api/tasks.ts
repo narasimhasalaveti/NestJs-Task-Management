@@ -28,7 +28,7 @@ export interface UpdateTaskStatusDto {
 }
 
 export const tasksAPI = {
-  getTasks: async (filters?: GetTasksFilterDto): Promise<Task[]> => {
+  async getTasks(filters?: GetTasksFilterDto): Promise<Task[]> {
     const params = new URLSearchParams();
     if (filters?.status) params.append('status', filters.status);
     if (filters?.search) params.append('search', filters.search);
