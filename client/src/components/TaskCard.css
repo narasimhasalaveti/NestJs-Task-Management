@@ -20,7 +20,9 @@
   padding: 4px 8px;
   font-size: 18px;
   color: #007bff;
-  transition: color 0.2s, transform 0.2s;
+  transition:
+    color 0.2s,
+    transform 0.2s;
   flex-shrink: 0;
 }
 

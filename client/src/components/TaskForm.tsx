@@ -88,11 +88,7 @@ const TaskForm = ({
         </div>
 
         <div className="form-actions">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={loading}
-          >
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading
               ? isEditMode
                 ? 'Updating...'

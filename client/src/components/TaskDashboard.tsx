@@ -195,9 +195,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
         {loading ? (
           <div className="loading">Loading tasks...</div>
         ) : tasks.length === 0 ? (
-          <p className="empty-state">
-            No tasks found. Create your first task!
-          </p>
+          <p className="empty-state">No tasks found. Create your first task!</p>
         ) : (
           <div className="tasks-grid">
             {tasks.map((task) => (

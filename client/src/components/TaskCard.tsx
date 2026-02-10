@@ -51,10 +51,7 @@ const TaskCard = ({
       </div>
       <div className="task-card-footer">
         <div className="task-status-wrapper">
-          <label
-            htmlFor={`status-${task.id}`}
-            className="task-status-label"
-          >
+          <label htmlFor={`status-${task.id}`} className="task-status-label">
             Status:
           </label>
           <select
@@ -65,10 +62,7 @@ const TaskCard = ({
             }
             className={`task-status-select ${getStatusClass(task.status)}`}
           >
-            <option
-              value={TaskStatus.OPEN}
-              className="task-status-option"
-            >
+            <option value={TaskStatus.OPEN} className="task-status-option">
               {statusDisplayMap[TaskStatus.OPEN]}
             </option>
             <option
@@ -77,10 +71,7 @@ const TaskCard = ({
             >
               {statusDisplayMap[TaskStatus.IN_PROGRESS]}
             </option>
-            <option
-              value={TaskStatus.DONE}
-              className="task-status-option"
-            >
+            <option value={TaskStatus.DONE} className="task-status-option">
               {statusDisplayMap[TaskStatus.DONE]}
             </option>
           </select>
