@@ -55,4 +55,9 @@ export const tasksAPI = {
     const response = await axios.patch<Task>(`/tasks/${id}/status`, { status });
     return response.data;
   },
+
+  editTask: async (id: string, taskDto: CreateTaskDto): Promise<Task> => {
+    const response = await axios.patch<Task>(`/tasks/${id}/edit`, taskDto);
+    return response.data;
+  },
 };

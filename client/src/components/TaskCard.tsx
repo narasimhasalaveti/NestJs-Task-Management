@@ -4,9 +4,15 @@ interface TaskCardProps {
   task: Task;
   onDelete: (id: string) => void;
   onUpdateStatus: (id: string, status: TaskStatus) => void;
+  onEdit: (task: Task) => void;
 }
 
-const TaskCard = ({ task, onDelete, onUpdateStatus }: TaskCardProps) => {
+const TaskCard = ({
+  task,
+  onDelete,
+  onUpdateStatus,
+  onEdit,
+}: TaskCardProps) => {
   const statusDisplayMap = {
     [TaskStatus.OPEN]: 'Open',
     [TaskStatus.IN_PROGRESS]: 'In Progress',
@@ -29,7 +35,32 @@ const TaskCard = ({ task, onDelete, onUpdateStatus }: TaskCardProps) => {
   return (
     <div className="task-card">
       <div className="task-card-content">
-        <h3>{task.title}</h3>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'start',
+          }}
+        >
+          <h3 style={{ flex: 1 }}>{task.title}</h3>
+          <button
+            onClick={() => onEdit(task)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '4px 8px',
+              fontSize: '18px',
+              color: '#007bff',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#0056b3')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#007bff')}
+            title="Edit task"
+          >
+            ✏️
+          </button>
+        </div>
         <p>{task.description}</p>
       </div>
       <div className="task-card-footer">

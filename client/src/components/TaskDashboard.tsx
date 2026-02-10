@@ -16,6 +16,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<TaskStatus | ''>('');
   const [showForm, setShowForm] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const prevStatusRef = useRef<TaskStatus | ''>(statusFilter);
 
   useEffect(() => {
@@ -62,15 +63,32 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
 
   const handleCreateTask = async (taskDto: CreateTaskDto) => {
     try {
-      const newTask = await tasksAPI.createTask(taskDto);
-      setShowForm(false);
-      setSearchTerm('');
-      setStatusFilter('');
-      // Add the newly created task to the top of the list
-      setTasks((prevTasks) => [newTask, ...prevTasks]);
+      if (editingTask) {
+        // Edit mode
+        const updatedTask = await tasksAPI.editTask(editingTask.id, taskDto);
+        setShowForm(false);
+        setEditingTask(null);
+        // Update the task in local state
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          )
+        );
+      } else {
+        // Create mode
+        const newTask = await tasksAPI.createTask(taskDto);
+        setShowForm(false);
+        setSearchTerm('');
+        setStatusFilter('');
+        // Add the newly created task to the top of the list
+        setTasks((prevTasks) => [newTask, ...prevTasks]);
+      }
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      throw new Error(error.response?.data?.message || 'Failed to create task');
+      throw new Error(
+        error.response?.data?.message ||
+          `Failed to ${editingTask ? 'update' : 'create'} task`
+      );
     }
   };
 
@@ -104,6 +122,16 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
     }
   };
 
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+    setShowForm(true);
+  };
+
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setEditingTask(null);
+  };
+
   return (
     <div>
       <nav className="navbar">
@@ -116,7 +144,12 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
           <h2>My Tasks</h2>
           <button
             className="btn btn-primary"
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => {
+              setShowForm(!showForm);
+              if (!showForm) {
+                setEditingTask(null);
+              }
+            }}
           >
             {showForm ? 'Cancel' : 'Create New Task'}
           </button>
@@ -125,7 +158,16 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
         {showForm && (
           <TaskForm
             onSubmit={handleCreateTask}
-            onCancel={() => setShowForm(false)}
+            onCancel={handleCancelForm}
+            initialData={
+              editingTask
+                ? {
+                    title: editingTask.title,
+                    description: editingTask.description,
+                  }
+                : undefined
+            }
+            isEditMode={!!editingTask}
           />
         )}
 
@@ -163,6 +205,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
                 task={task}
                 onDelete={handleDeleteTask}
                 onUpdateStatus={handleUpdateStatus}
+                onEdit={handleEditTask}
               />
             ))}
           </div>

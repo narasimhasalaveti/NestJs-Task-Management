@@ -1,18 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CreateTaskDto } from '../api/tasks';
 
 interface TaskFormProps {
   onSubmit: (task: CreateTaskDto) => Promise<void>;
   onCancel: () => void;
+  initialData?: CreateTaskDto;
+  isEditMode?: boolean;
 }
 
-const TaskForm = ({ onSubmit, onCancel }: TaskFormProps) => {
-  const [task, setTask] = useState<CreateTaskDto>({
-    title: '',
-    description: '',
-  });
+const TaskForm = ({
+  onSubmit,
+  onCancel,
+  initialData,
+  isEditMode = false,
+}: TaskFormProps) => {
+  const [task, setTask] = useState<CreateTaskDto>(
+    initialData || {
+      title: '',
+      description: '',
+    }
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (initialData) {
+      setTask(initialData);
+    }
+  }, [initialData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +56,7 @@ const TaskForm = ({ onSubmit, onCancel }: TaskFormProps) => {
 
   return (
     <div className="task-form">
-      <h3>Create New Task</h3>
+      <h3>{isEditMode ? 'Edit Task' : 'Create New Task'}</h3>
 
       {error && <div className="error-message">{error}</div>}
 
@@ -84,7 +99,13 @@ const TaskForm = ({ onSubmit, onCancel }: TaskFormProps) => {
             disabled={loading}
             style={{ flex: 1 }}
           >
-            {loading ? 'Creating...' : 'Create Task'}
+            {loading
+              ? isEditMode
+                ? 'Updating...'
+                : 'Creating...'
+              : isEditMode
+                ? 'Update Task'
+                : 'Create Task'}
           </button>
           <button
             type="button"
