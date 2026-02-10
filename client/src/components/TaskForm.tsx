@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CreateTaskDto } from '../api/tasks';
+import './TaskForm.css';
 
 interface TaskFormProps {
   onSubmit: (task: CreateTaskDto) => Promise<void>;
@@ -82,22 +83,15 @@ const TaskForm = ({
             onChange={handleChange}
             required
             rows={4}
-            style={{
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem',
-              resize: 'vertical',
-            }}
+            className="task-form-textarea"
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div className="form-actions">
           <button
             type="submit"
             className="btn btn-primary"
             disabled={loading}
-            style={{ flex: 1 }}
           >
             {loading
               ? isEditMode
@@ -111,7 +105,6 @@ const TaskForm = ({
             type="button"
             className="btn btn-secondary"
             onClick={onCancel}
-            style={{ flex: 1 }}
           >
             Cancel
           </button>

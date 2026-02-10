@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { authAPI, AuthCredentials } from '../api/auth';
+import './Auth.css';
 
 interface AuthProps {
   onLogin: (token: string) => void;
@@ -88,7 +89,7 @@ const Auth = ({ onLogin }: AuthProps) => {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <div style={{ position: 'relative', width: '100%' }}>
+          <div className="password-wrapper">
             {isSignup ? (
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -99,7 +100,7 @@ const Auth = ({ onLogin }: AuthProps) => {
                 required
                 minLength={8}
                 maxLength={32}
-                style={{ width: '100%', paddingRight: '45px' }}
+                className="password-input"
               />
             ) : (
               <input
@@ -109,33 +110,18 @@ const Auth = ({ onLogin }: AuthProps) => {
                 value={credentials.password}
                 onChange={handleChange}
                 required
-                style={{ width: '100%', paddingRight: '45px' }}
+                className="password-input"
               />
             )}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#333',
-                fontSize: '20px',
-              }}
+              className="password-toggle-btn"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
                 <svg
-                  width="20"
-                  height="20"
+                  className="password-toggle-icon"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -148,8 +134,7 @@ const Auth = ({ onLogin }: AuthProps) => {
                 </svg>
               ) : (
                 <svg
-                  width="20"
-                  height="20"
+                  className="password-toggle-icon"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"

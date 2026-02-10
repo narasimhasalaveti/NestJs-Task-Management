@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { tasksAPI, Task, TaskStatus, CreateTaskDto } from '../api/tasks';
 import TaskCard from './TaskCard';
 import TaskForm from './TaskForm';
+import './TaskDashboard.css';
 
 interface TaskDashboardProps {
   onLogout: () => void;
@@ -98,7 +99,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
         await tasksAPI.deleteTask(id);
         // Remove the task from local state without refetching
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-      } catch (err) {
+      } catch {
         alert('Failed to delete task');
       }
     }
@@ -117,7 +118,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
           prevTasks.map((task) => (task.id === id ? { ...task, status } : task))
         );
       }
-    } catch (err) {
+    } catch {
       alert('Failed to update task status');
     }
   };
@@ -194,7 +195,7 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
         {loading ? (
           <div className="loading">Loading tasks...</div>
         ) : tasks.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#666', marginTop: '2rem' }}>
+          <p className="empty-state">
             No tasks found. Create your first task!
           </p>
         ) : (

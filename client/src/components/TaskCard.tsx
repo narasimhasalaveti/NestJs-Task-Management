@@ -1,4 +1,5 @@
 import { Task, TaskStatus } from '../api/tasks';
+import './TaskCard.css';
 
 interface TaskCardProps {
   task: Task;
@@ -19,44 +20,29 @@ const TaskCard = ({
     [TaskStatus.DONE]: 'Done',
   };
 
-  const getStatusColor = (status: TaskStatus): string => {
+  const getStatusClass = (status: TaskStatus): string => {
     switch (status) {
       case TaskStatus.OPEN:
-        return '#3b82f6';
+        return 'status-open';
       case TaskStatus.IN_PROGRESS:
-        return '#f59e0b';
+        return 'status-in-progress';
       case TaskStatus.DONE:
-        return '#10b981';
+        return 'status-done';
       default:
-        return '#6b7280';
+        return 'status-default';
     }
   };
 
   return (
     <div className="task-card">
       <div className="task-card-content">
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'start',
-          }}
-        >
-          <h3 style={{ flex: 1 }}>{task.title}</h3>
+        <div className="task-header">
+          <h3 className="task-title">{task.title}</h3>
           <button
             onClick={() => onEdit(task)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '4px 8px',
-              fontSize: '18px',
-              color: '#007bff',
-              transition: 'color 0.2s',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#0056b3')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#007bff')}
+            className="task-edit-btn"
             title="Edit task"
+            aria-label="Edit task"
           >
             ✏️
           </button>
@@ -64,17 +50,10 @@ const TaskCard = ({
         <p>{task.description}</p>
       </div>
       <div className="task-card-footer">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            marginBottom: '12px',
-          }}
-        >
+        <div className="task-status-wrapper">
           <label
             htmlFor={`status-${task.id}`}
-            style={{ fontSize: '14px', fontWeight: '500' }}
+            className="task-status-label"
           >
             Status:
           </label>
@@ -84,41 +63,31 @@ const TaskCard = ({
             onChange={(e) =>
               onUpdateStatus(task.id, e.target.value as TaskStatus)
             }
-            style={{
-              flex: 1,
-              padding: '6px 10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              backgroundColor: getStatusColor(task.status),
-              color: 'white',
-              fontWeight: '500',
-              cursor: 'pointer',
-            }}
+            className={`task-status-select ${getStatusClass(task.status)}`}
           >
             <option
               value={TaskStatus.OPEN}
-              style={{ backgroundColor: 'white', color: '#333' }}
+              className="task-status-option"
             >
               {statusDisplayMap[TaskStatus.OPEN]}
             </option>
             <option
               value={TaskStatus.IN_PROGRESS}
-              style={{ backgroundColor: 'white', color: '#333' }}
+              className="task-status-option"
             >
               {statusDisplayMap[TaskStatus.IN_PROGRESS]}
             </option>
             <option
               value={TaskStatus.DONE}
-              style={{ backgroundColor: 'white', color: '#333' }}
+              className="task-status-option"
             >
               {statusDisplayMap[TaskStatus.DONE]}
             </option>
           </select>
         </div>
         <button
-          className="btn btn-danger"
+          className="btn btn-danger task-delete-btn"
           onClick={() => onDelete(task.id)}
-          style={{ width: '100%' }}
         >
           Delete
         </button>

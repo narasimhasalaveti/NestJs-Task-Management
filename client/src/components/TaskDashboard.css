@@ -1,0 +1,13 @@
+/* TaskDashboard Component Styles */
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  padding: 2rem;
+}
+
+.tasks-container {
+  min-height: 200px;
+}
