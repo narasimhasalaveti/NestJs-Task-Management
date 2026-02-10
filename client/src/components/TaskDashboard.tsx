@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { tasksAPI, Task, TaskStatus, CreateTaskDto } from '../api/tasks';
 import TaskCard from './TaskCard';
 import TaskForm from './TaskForm';
@@ -7,6 +7,8 @@ interface TaskDashboardProps {
   onLogout: () => void;
 }
 
+const MIN_SEARCH_LENGTH = 3;
+
 const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -14,17 +16,37 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<TaskStatus | ''>('');
   const [showForm, setShowForm] = useState(false);
+  const prevStatusRef = useRef<TaskStatus | ''>(statusFilter);
 
   useEffect(() => {
-    void fetchTasks();
+    const normalizedSearch = searchTerm.trim();
+    const statusChanged = prevStatusRef.current !== statusFilter;
+    const shouldFetch =
+      normalizedSearch.length === 0 ||
+      normalizedSearch.length >= MIN_SEARCH_LENGTH ||
+      statusChanged;
+
+    if (!shouldFetch) {
+      prevStatusRef.current = statusFilter;
+      return;
+    }
+
+    const ignoreSearch = normalizedSearch.length < MIN_SEARCH_LENGTH;
+    void fetchTasks(ignoreSearch);
+    prevStatusRef.current = statusFilter;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, statusFilter]);
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (ignoreSearch = false) => {
     try {
       setLoading(true);
+      const normalizedSearch = searchTerm.trim();
+      const search =
+        !ignoreSearch && normalizedSearch.length >= MIN_SEARCH_LENGTH
+          ? normalizedSearch
+          : '';
       const filters = {
-        search: searchTerm || undefined,
+        search: search || undefined,
         status: statusFilter || undefined,
       };
       const data = await tasksAPI.getTasks(filters);
@@ -42,17 +64,10 @@ const TaskDashboard = ({ onLogout }: TaskDashboardProps) => {
     try {
       const newTask = await tasksAPI.createTask(taskDto);
       setShowForm(false);
-
-      // Check if the new task matches current filters
-      const matchesFilter = !statusFilter || newTask.status === statusFilter;
-      const matchesSearch =
-        !searchTerm ||
-        newTask.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        newTask.description.toLowerCase().includes(searchTerm.toLowerCase());
-
-      if (matchesFilter && matchesSearch) {
-        setTasks((prevTasks) => [newTask, ...prevTasks]);
-      }
+      setSearchTerm('');
+      setStatusFilter('');
+      // Add the newly created task to the top of the list
+      setTasks((prevTasks) => [newTask, ...prevTasks]);
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       throw new Error(error.response?.data?.message || 'Failed to create task');
