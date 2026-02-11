@@ -2,7 +2,7 @@
 
 Complete documentation for the NestJS backend API with MySQL database, JWT authentication, and TypeORM.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
@@ -20,7 +20,7 @@ Complete documentation for the NestJS backend API with MySQL database, JWT authe
 
 ---
 
-## 📖 Overview
+## Overview
 
 This is a full-featured NestJS backend application that provides a secure REST API for task management. It includes user authentication with JWT tokens, MySQL database persistence using TypeORM, and complete CRUD operations for tasks with filtering and search capabilities.
 
@@ -36,7 +36,7 @@ This is a full-featured NestJS backend application that provides a secure REST A
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core Framework
 
@@ -74,7 +74,7 @@ This is a full-featured NestJS backend application that provides a secure REST A
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 nestjs-task-management/
@@ -122,7 +122,7 @@ nestjs-task-management/
 
 ---
 
-## ⚙️ Environment Configuration
+## Environment Configuration
 
 The application uses stage-based environment files: `.env.stage.${STAGE}`
 
@@ -166,7 +166,7 @@ export const configValidationSchema = joi?.object({
 
 ---
 
-## 🗄️ Database Setup
+## Database Setup
 
 ### MySQL Database Creation
 
@@ -258,7 +258,7 @@ TypeOrmModule.forRootAsync({
 
 ---
 
-## 🔐 Authentication System
+## Authentication System
 
 ### JWT Strategy
 
@@ -326,7 +326,7 @@ Protected routes use `@UseGuards(AuthGuard())` decorator.
 
 ---
 
-## 🌐 API Endpoints
+## API Endpoints
 
 Base URL: `http://localhost:3000`
 
@@ -602,7 +602,7 @@ GET /tasks?status=IN_PROGRESS&search=project
 
 ---
 
-## ✨ Features
+## Features
 
 ### 1. User Authentication
 
@@ -654,7 +654,7 @@ app.useGlobalInterceptors(new TransformInterceptor());
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -708,7 +708,7 @@ Backend will run on: **http://localhost:3000**
 
 ---
 
-## 💻 Development
+## Development
 
 ### Available Scripts
 
@@ -779,7 +779,7 @@ export class CreateMyDto {
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Unit Tests
 
@@ -818,7 +818,7 @@ test/
 
 ---
 
-## 🔒 Security
+## Security
 
 ### 1. Password Security
 
@@ -883,7 +883,7 @@ getTasks() { }
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Database Connection Issues
 

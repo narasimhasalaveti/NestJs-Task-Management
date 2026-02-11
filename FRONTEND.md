@@ -2,7 +2,7 @@
 
 Complete documentation for the React + TypeScript frontend application with JWT authentication, task management, and modern UI.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
@@ -22,7 +22,7 @@ Complete documentation for the React + TypeScript frontend application with JWT 
 
 ---
 
-## 📖 Overview
+## Overview
 
 This is a modern React single-page application (SPA) built with TypeScript and Vite. It provides a complete task management interface with user authentication, CRUD operations, filtering, and search capabilities. The application communicates with a NestJS backend API using JWT tokens for secure authentication.
 
@@ -39,7 +39,7 @@ This is a modern React single-page application (SPA) built with TypeScript and V
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core Framework
 
@@ -68,7 +68,7 @@ This is a modern React single-page application (SPA) built with TypeScript and V
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 client/
@@ -103,7 +103,7 @@ client/
 
 ---
 
-## ✨ Features
+## Features
 
 ### 1. User Authentication
 
@@ -147,7 +147,7 @@ client/
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -204,7 +204,7 @@ You should see the authentication page!
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Application Flow
 
@@ -268,7 +268,7 @@ You should see the authentication page!
 
 ---
 
-## 🧩 Components
+## Components
 
 ### 1. App.tsx - Root Component
 
@@ -462,7 +462,7 @@ interface TaskFormProps {
 
 ---
 
-## 🔌 API Integration
+## API Integration
 
 ### API Layer Structure
 
@@ -733,7 +733,7 @@ const result = await deleteTask('task-id-123');
 
 ---
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 ### Sign Up Flow
 
@@ -877,7 +877,7 @@ API returns 401 Unauthorized:
 
 ---
 
-## 🎨 Styling
+## Styling
 
 ### Global Styles (index.css)
 
@@ -947,7 +947,7 @@ Each component has its own CSS file:
 
 ---
 
-## 💻 Development
+## Development
 
 ### Available Scripts
 
@@ -1105,7 +1105,7 @@ const fetchData = async () => {
 
 ---
 
-## 🏗️ Building for Production
+## Building for Production
 
 ### Build Command
 
@@ -1172,7 +1172,7 @@ export default defineConfig({
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Cannot Connect to Backend
 
