@@ -82,4 +82,17 @@ export class TasksService {
 
     return task;
   }
+
+  async editTaskById(
+    id: string,
+    createTaskDto: CreateTaskDto,
+    user: User,
+  ): Promise<Task> {
+    const task = await this.getTaskById(id, user);
+
+    task.title = createTaskDto?.title;
+    task.description = createTaskDto?.description;
+    await this.tasksRepository.save(task);
+    return task;
+  }
 }

@@ -6,7 +6,10 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({
+    unique: true,
+    collation: 'utf8mb4_bin',
+  })
   username: string;
 
   @Column()
